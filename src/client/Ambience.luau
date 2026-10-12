@@ -275,6 +275,12 @@ function Ambience.restoreMineLamps()
 end
 
 local function setPosters(night)
+	for _, part in CollectionService:GetTagged("NightGraffiti") do
+		local gui = part:FindFirstChildWhichIsA("SurfaceGui")
+		if gui then
+			gui.Enabled = night
+		end
+	end
 	for _, part in CollectionService:GetTagged("Poster") do
 		local gui = part:FindFirstChildWhichIsA("SurfaceGui")
 		local title = gui and gui:FindFirstChild("Title", true)
@@ -447,6 +453,14 @@ local function update(dt)
 		s.Material = on and Enum.Material.Neon or Enum.Material.Glass
 		local n = math.random()
 		s.Color = on and rgb(60 + n * 40, 64 + n * 40, 70 + n * 40) or rgb(38, 46, 44)
+	end
+	-- The New Year garland twinkles.
+	if math.random() < dt * 4 then
+		local bulbs = CollectionService:GetTagged("Garland")
+		local bulb = bulbs[math.random(1, math.max(#bulbs, 1))]
+		if bulb then
+			bulb.Material = bulb.Material == Enum.Material.Neon and Enum.Material.SmoothPlastic or Enum.Material.Neon
+		end
 	end
 	if stage >= Config.NightFrom then
 		for _, seat in CollectionService:GetTagged("Swing") do

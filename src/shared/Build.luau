@@ -243,6 +243,37 @@ function Build.note(parent, id, at)
 	return paper
 end
 
+-- Paint or chalk on a wall. The graffiti's front faces the CFrame's LookVector.
+-- opts: color, size (Vector2), font, rotation (degrees), night (only shows after dark).
+function Build.graffiti(parent, at, text, opts)
+	opts = opts or {}
+	local size = opts.size or Vector2.new(6, 2)
+	local part = Build.detail(Build.block(parent, "Graffiti", Vector3.new(size.X, size.Y, 0.05), at, Color3.new(0, 0, 0)))
+	part.Transparency = 1
+	local gui = Instance.new("SurfaceGui")
+	gui.Face = Enum.NormalId.Front
+	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
+	gui.PixelsPerStud = 40
+	gui.LightInfluence = 1
+	gui.Parent = part
+	local label = Instance.new("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Size = UDim2.fromScale(1, 1)
+	label.Text = text
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.Font = opts.font or Enum.Font.PermanentMarker
+	label.TextColor3 = opts.color or Color3.fromRGB(230, 230, 224)
+	label.TextTransparency = opts.transparency or 0.1
+	label.Rotation = opts.rotation or 0
+	label.Parent = gui
+	if opts.night then
+		gui.Enabled = false
+		Build.tag(part, "NightGraffiti")
+	end
+	return part
+end
+
 -- A wall split into solid pieces around openings.
 -- a, b: ends of the wall's inner face line (on the floor). out: unit vector pointing out of the room.
 -- gaps: list of { at = distance from a, width = w, bottom = y (default 0), top = y (default height) }.

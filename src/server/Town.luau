@@ -4,6 +4,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Build = require(Shared.Build)
+local Figure = require(Shared.Figure)
 local Config = require(Shared.Config)
 
 local rgb = Build.rgb
@@ -658,6 +659,8 @@ local function camp(parent, at)
 	local stone = block(parent, "Memorial stone", Vector3.new(3, 3.2, 1.4), CFrame.new(at + Vector3.new(6, 1.6, -6)) * CFrame.Angles(0, 0.4, 0.05), rgb(80, 80, 84), Enum.Material.Granite)
 	Build.sign(stone, Enum.NormalId.Front, "НОРИЛЬЛАГ\n1935–1956", { bg = rgb(70, 70, 74), fg = rgb(200, 200, 190), font = Enum.Font.Merriweather })
 	Build.note(parent, 6, CFrame.new(at + Vector3.new(6, 3.25, -6)) * CFrame.Angles(0, 0.4, 0.05))
+	Build.note(parent, 8, CFrame.new(at + Vector3.new(16, 0.1, -12)) * CFrame.Angles(0, -0.6, 0))
+	Build.graffiti(parent, b * CFrame.new(4, 3.2, -5.55) * CFrame.Angles(0, math.pi, 0), "Л-128 НЕ БЕЖАЛ", { color = rgb(60, 40, 30), size = Vector2.new(6, 1.6), rotation = -2 })
 	-- Graves: rows of numbered stakes.
 	for i = 0, 11 do
 		local p = at + Vector3.new(-20 + (i % 4) * 4, 0, -10 - math.floor(i / 4) * 5)
@@ -665,6 +668,243 @@ local function camp(parent, at)
 		local plate = detail(block(parent, "Number plate", Vector3.new(0.8, 0.5, 0.05), CFrame.new(p + Vector3.new(0, 2.2, -0.13)), rgb(110, 100, 80), Enum.Material.Metal))
 		Build.sign(plate, Enum.NormalId.Front, ("Л-%d"):format(100 + i * 7), { bg = rgb(110, 100, 80), fg = rgb(30, 30, 30), font = Enum.Font.Code })
 		stake.CanCollide = true
+	end
+end
+
+local function staged(model, from, to)
+	model:SetAttribute("ShowFrom", from)
+	model:SetAttribute("ShowTo", to)
+	Build.tag(model, "StagedPerson")
+	return model
+end
+
+-- Soda water machine: 1 kopeck plain, 3 with syrup, one shared glass.
+local function sodaMachine(parent, cf)
+	block(parent, "Soda machine", Vector3.new(2.6, 5.6, 2), cf * CFrame.new(0, 2.8, 0), rgb(200, 40, 34), Enum.Material.SmoothPlastic)
+	local top = detail(block(parent, "Soda sign", Vector3.new(2.5, 1.2, 0.1), cf * CFrame.new(0, 4.9, -1.02), rgb(236, 232, 220)))
+	Build.sign(top, Enum.NormalId.Front, "ГАЗИРОВАННАЯ\nВОДА", { bg = rgb(236, 232, 220), fg = rgb(180, 30, 26), lightInfluence = 0.4 })
+	local prices = detail(block(parent, "Soda prices", Vector3.new(1.4, 0.8, 0.1), cf * CFrame.new(-0.4, 3.6, -1.02), rgb(236, 232, 220)))
+	Build.sign(prices, Enum.NormalId.Front, "1 коп. — без сиропа\n3 коп. — с сиропом", { bg = rgb(236, 232, 220), fg = rgb(20, 20, 20), font = Enum.Font.Arimo })
+	detail(block(parent, "Soda niche", Vector3.new(1, 1.2, 0.3), cf * CFrame.new(0.5, 2.4, -0.9), rgb(30, 30, 30), Enum.Material.Metal))
+	local glass = detail(Build.column(parent, "Shared glass", 0.6, 0.45, (cf * CFrame.new(0.5, 1.85, -0.9)).Position, rgb(200, 210, 210), Enum.Material.Glass))
+	glass.Transparency = 0.3
+	local glow = detail(block(parent, "Soda light", Vector3.new(2.3, 0.3, 0.1), cf * CFrame.new(0, 5.65, -1.02), rgb(255, 236, 200), Enum.Material.Neon))
+	Build.light(glow, rgb(255, 230, 200), 8, 0.4)
+	detail(block(parent, "Soda snow", Vector3.new(2.6, 0.4, 2), cf * CFrame.new(0, 5.8, 0), SNOW, Enum.Material.Snow))
+end
+
+local function kvassBarrel(parent, cf)
+	detail(Build.cylinder(parent, "Kvass barrel", 6, 3.6, cf * CFrame.new(0, 3, 0), rgb(220, 180, 40), Enum.Material.SmoothPlastic)).CanCollide = true
+	local label = detail(block(parent, "Kvass label", Vector3.new(3, 1.2, 0.1), cf * CFrame.new(0, 3, -1.82), rgb(220, 180, 40)))
+	Build.sign(label, Enum.NormalId.Front, "КВАС", { bg = rgb(220, 180, 40), fg = rgb(160, 30, 26) })
+	for _, x in { -2, 2 } do
+		detail(Build.cylinder(parent, "Barrel wheel", 0.5, 1.8, cf * CFrame.new(x, 0.9, 0) * CFrame.Angles(0, math.pi / 2, 0), rgb(24, 24, 24), Enum.Material.Rubber))
+	end
+	detail(block(parent, "Barrel snow", Vector3.new(5.6, 0.7, 2.4), cf * CFrame.new(0, 4.9, 0), SNOW, Enum.Material.Snow))
+	detail(block(parent, "Closed for winter", Vector3.new(1.4, 0.6, 0.05), cf * CFrame.new(1.8, 2.2, -1.85), rgb(240, 240, 230)))
+end
+
+-- An advertising pillar with the cinema and the House of Culture.
+local function afisha(parent, at)
+	detail(Build.column(parent, "Advertising pillar", 7, 3.6, at, rgb(200, 196, 186))).CanCollide = true
+	detail(Build.column(parent, "Pillar cap", 0.6, 4.2, at + Vector3.new(0, 7, 0), rgb(60, 64, 60), Enum.Material.Metal))
+	detail(Build.column(parent, "Pillar snow", 0.4, 4, at + Vector3.new(0, 7.6, 0), SNOW, Enum.Material.Snow))
+	local bills = {
+		{ "КИНОТЕАТР «ПОЛЯРНЫЙ»\n«МОСКВА СЛЕЗАМ НЕ ВЕРИТ»\nнач. 18:00 и 20:30", rgb(236, 226, 180), rgb(40, 30, 90) },
+		{ "«ПИРАТЫ XX ВЕКА»\nДети до 16 лет не допускаются", rgb(40, 110, 160), rgb(250, 240, 220) },
+		{ "ДК ГОРНЯКОВ\nТАНЦЫ · суббота 19:00\nВИА «Заполярье»", rgb(200, 60, 60), rgb(250, 240, 220) },
+		{ "НОВОГОДНИЙ ВЕЧЕР\n31 декабря\nДля детей горняков — ёлка в ДК", rgb(40, 120, 70), rgb(250, 230, 120) },
+	}
+	for i, b in bills do
+		local a = (i - 1) * math.pi / 2
+		local p = at + Vector3.new(math.cos(a) * 1.82, 3.6, math.sin(a) * 1.82)
+		local bill = detail(block(parent, "Bill", Vector3.new(2.2, 3, 0.05), CFrame.lookAt(p, p + Vector3.new(math.cos(a), 0, math.sin(a))), b[2]))
+		Build.sign(bill, Enum.NormalId.Front, b[1], { bg = b[2], fg = b[3], font = Enum.Font.Oswald, padding = 0.05 })
+	end
+end
+
+-- A Soviet New Year tree with a red star, December 1984.
+local function newYearTree(parent, at)
+	detail(Build.column(parent, "Tree trunk", 3, 1, at, rgb(70, 50, 34), Enum.Material.Wood)).CanCollide = true
+	local tiers = { { 9, 3 }, { 7.4, 6.5 }, { 5.8, 10 }, { 4, 13.2 }, { 2.4, 16 } }
+	local r = Random.new(85)
+	for i, t in tiers do
+		for k = 0, 1 do
+			detail(block(parent, "Tree tier", Vector3.new(t[1], 3.4, t[1]), CFrame.new(at + Vector3.new(0, t[2] + 1, 0)) * CFrame.Angles(0, k * math.pi / 4 + i * 0.3, 0), rgb(30, 70, 44), Enum.Material.Grass))
+		end
+		for _ = 1, 6 - i do
+			local a = r:NextNumber(0, math.pi * 2)
+			local p = at + Vector3.new(math.cos(a) * t[1] * 0.55, t[2] + r:NextNumber(0, 2), math.sin(a) * t[1] * 0.55)
+			local colors = { rgb(255, 60, 50), rgb(255, 210, 60), rgb(80, 140, 255), rgb(80, 255, 120) }
+			local bulb = detail(Build.ball(parent, "Garland bulb", 0.45, p, colors[r:NextInteger(1, #colors)], Enum.Material.Neon))
+			Build.tag(bulb, "Garland")
+		end
+		detail(block(parent, "Tree snow", Vector3.new(t[1] * 0.8, 0.3, t[1] * 0.8), CFrame.new(at + Vector3.new(0, t[2] + 2.8, 0)) * CFrame.Angles(0, 0.4, 0), SNOW, Enum.Material.Snow))
+	end
+	local star = detail(block(parent, "Tree star", Vector3.new(2.4, 2.4, 0.2), at + Vector3.new(0, 19.4, 0), rgb(0, 0, 0)))
+	star.Transparency = 1
+	for _, f in { Enum.NormalId.Front, Enum.NormalId.Back } do
+		Build.sign(star, f, "★", { bgTransparency = 1, fg = rgb(255, 40, 30), lightInfluence = 0, brightness = 2, font = Enum.Font.GothamBlack })
+	end
+	local glow = detail(Build.ball(parent, "Star glow", 0.4, at + Vector3.new(0, 19.4, 0), rgb(255, 40, 30), Enum.Material.Neon))
+	Build.light(glow, rgb(255, 70, 50), 18, 0.8)
+end
+
+local function smallCar(parent, cf, color, name, length)
+	length = length or 8
+	local m = Instance.new("Model")
+	m.Name = name
+	m.Parent = parent
+	block(m, "Body", Vector3.new(4.2, 1.6, length), cf * CFrame.new(0, 1.5, 0), color, Enum.Material.SmoothPlastic)
+	block(m, "Cabin", Vector3.new(3.8, 1.4, length * 0.5), cf * CFrame.new(0, 2.95, 0.4), color, Enum.Material.SmoothPlastic)
+	detail(block(m, "Windscreen", Vector3.new(3.4, 1.1, 0.1), cf * CFrame.new(0, 2.95, 0.4 - length * 0.25 - 0.02), rgb(30, 36, 40), Enum.Material.Glass))
+	detail(block(m, "Roof snow", Vector3.new(3.7, 0.5, length * 0.5), cf * CFrame.new(0, 3.9, 0.4), SNOW, Enum.Material.Snow))
+	for _, x in { -2, 2 } do
+		for _, z in { -length * 0.32, length * 0.32 } do
+			detail(Build.cylinder(m, "Wheel", 0.7, 1.8, cf * CFrame.new(x, 0.9, z), rgb(24, 24, 24), Enum.Material.Rubber))
+		end
+	end
+	wedge(m, "Snow heap", Vector3.new(5, 1.4, 3), cf * CFrame.new(0, 0.7, length / 2 + 1.5) * CFrame.Angles(0, math.pi, 0), SNOW, Enum.Material.Snow)
+	return m
+end
+
+-- Army GAZ-66, cab-over truck with a canvas-covered bed. Engine left running, lights on.
+local function gaz66(parent, cf)
+	local green = rgb(66, 78, 54)
+	local m = Instance.new("Model")
+	m.Name = "GAZ-66"
+	m.Parent = parent
+	block(m, "Cab", Vector3.new(6, 5, 4.5), cf * CFrame.new(0, 4.6, -6), green, Enum.Material.SmoothPlastic)
+	detail(block(m, "Cab window", Vector3.new(5, 1.8, 0.1), cf * CFrame.new(0, 5.6, -8.27), rgb(30, 36, 40), Enum.Material.Glass))
+	block(m, "Bed", Vector3.new(6.4, 1, 10), cf * CFrame.new(0, 2.8, 2), rgb(50, 54, 44), Enum.Material.Metal)
+	block(m, "Bumper", Vector3.new(6.6, 0.5, 0.8), cf * CFrame.new(0, 2.2, -8.6), rgb(40, 44, 36), Enum.Material.Metal)
+	block(m, "Canvas", Vector3.new(6.4, 4.5, 10), cf * CFrame.new(0, 5.6, 2), rgb(84, 90, 66), Enum.Material.Fabric)
+	detail(block(m, "Canvas snow", Vector3.new(6.2, 0.5, 9.8), cf * CFrame.new(0, 8.1, 2), SNOW, Enum.Material.Snow))
+	detail(block(m, "Cab snow", Vector3.new(5.8, 0.4, 4.3), cf * CFrame.new(0, 7.3, -6), SNOW, Enum.Material.Snow))
+	for _, z in { -6, 4 } do
+		for _, x in { -3, 3 } do
+			detail(Build.cylinder(m, "Wheel", 1.2, 3.4, cf * CFrame.new(x, 1.7, z), rgb(24, 24, 24), Enum.Material.Rubber))
+		end
+	end
+	for _, x in { -2.2, 2.2 } do
+		local lamp = detail(Build.ball(m, "Headlight", 0.7, cf * CFrame.new(x, 3.2, -8.3), rgb(255, 236, 190), Enum.Material.Neon))
+		local spot = Instance.new("SpotLight")
+		spot.Face = Enum.NormalId.Front
+		spot.Range = 40
+		spot.Angle = 45
+		spot.Brightness = 1.2
+		spot.Color = rgb(255, 230, 180)
+		spot.Parent = lamp
+		lamp.CFrame = CFrame.lookAt(lamp.CFrame.Position, lamp.CFrame.Position + cf.LookVector)
+	end
+	local plate = detail(block(m, "Army plate", Vector3.new(2.2, 0.6, 0.05), cf * CFrame.new(0, 2.4, -8.3) * CFrame.Angles(0, math.pi, 0), rgb(20, 20, 20)))
+	Build.sign(plate, Enum.NormalId.Back, "45-17 ЛЕ", { bg = rgb(20, 20, 20), fg = rgb(236, 236, 230), font = Enum.Font.Arimo })
+	local star = detail(block(m, "Door star", Vector3.new(0.05, 1.4, 1.4), cf * CFrame.new(3.03, 4.6, -6), green))
+	Build.sign(star, Enum.NormalId.Right, "★", { bgTransparency = 1, fg = rgb(170, 30, 26), font = Enum.Font.GothamBlack })
+	-- Driver's door hanging open.
+	detail(block(m, "Open door", Vector3.new(0.2, 3, 2.6), cf * CFrame.new(4.1, 4.4, -6.8) * CFrame.Angles(0, 0.9, 0), green, Enum.Material.SmoothPlastic))
+	return m
+end
+
+-- Militia UAZ: yellow with the blue stripe.
+local function militiaCar(parent, cf)
+	local yellow = rgb(214, 180, 70)
+	block(parent, "Militia UAZ", Vector3.new(5, 2.4, 10), cf * CFrame.new(0, 2.2, 0), yellow, Enum.Material.SmoothPlastic)
+	block(parent, "Militia UAZ cabin", Vector3.new(4.8, 2.6, 6.5), cf * CFrame.new(0, 4.6, 1), yellow, Enum.Material.SmoothPlastic)
+	for _, x in { -2.52, 2.52 } do
+		local stripe = detail(block(parent, "Blue stripe", Vector3.new(0.05, 0.8, 9.6), cf * CFrame.new(x, 2.4, 0), rgb(40, 70, 150)))
+		Build.sign(stripe, x < 0 and Enum.NormalId.Left or Enum.NormalId.Right, "МИЛИЦИЯ", { bg = rgb(40, 70, 150), fg = rgb(240, 240, 230) })
+	end
+	local beacon = detail(Build.ball(parent, "Blue beacon", 0.8, cf * CFrame.new(0, 6.2, 1.5), rgb(60, 110, 255), Enum.Material.Neon))
+	Build.light(beacon, rgb(60, 110, 255), 18, 0.8)
+	Build.tag(beacon, "Beacon")
+	detail(block(parent, "Militia snow", Vector3.new(4.6, 0.5, 6.3), cf * CFrame.new(0, 6.05, 1), SNOW, Enum.Material.Snow))
+	for _, x in { -2.5, 2.5 } do
+		for _, z in { -3.4, 3.4 } do
+			detail(Build.cylinder(parent, "Wheel", 1, 2.6, cf * CFrame.new(x, 1.3, z), rgb(24, 24, 24), Enum.Material.Rubber))
+		end
+	end
+end
+
+local function urn(parent, at)
+	detail(Build.column(parent, "Concrete urn", 2.2, 1.6, at, rgb(150, 150, 144))).CanCollide = true
+	detail(Build.column(parent, "Urn snow", 0.3, 1.5, at + Vector3.new(0, 2.2, 0), SNOW, Enum.Material.Snow))
+end
+
+local function milkCrate(parent, cf)
+	detail(block(parent, "Milk crate", Vector3.new(2.4, 1.2, 1.6), cf * CFrame.new(0, 0.6, 0), rgb(90, 96, 100), Enum.Material.DiamondPlate))
+	for x = -0.8, 0.8, 0.8 do
+		for z = -0.4, 0.4, 0.8 do
+			detail(Build.column(parent, "Milk bottle", 1.3, 0.55, (cf * CFrame.new(x, 0.6, z)).Position, rgb(236, 236, 230), Enum.Material.Glass))
+			detail(Build.column(parent, "Foil cap", 0.12, 0.4, (cf * CFrame.new(x, 1.9, z)).Position, rgb(200, 200, 205), Enum.Material.Foil))
+		end
+	end
+end
+
+local function eraDressing(folder)
+	-- Gastronom frontage: soda machines and milk crates.
+	sodaMachine(folder, CFrame.lookAt(Vector3.new(57.6, 0.4, 6), Vector3.new(50, 0.4, 6)))
+	sodaMachine(folder, CFrame.lookAt(Vector3.new(57.6, 0.4, 2.6), Vector3.new(50, 0.4, 2.6)))
+	milkCrate(folder, CFrame.new(57.4, 0.4, 24))
+	milkCrate(folder, CFrame.new(57.6, 1.6, 24.3) * CFrame.Angles(0, 0.2, 0))
+	kvassBarrel(folder, CFrame.lookAt(Vector3.new(30, 0.3, -68), Vector3.new(30, 0.3, -60)))
+	afisha(folder, Vector3.new(32, 0.3, -34))
+	newYearTree(folder, Vector3.new(42, 0.3, -46))
+	for _, p in { Vector3.new(20.5, 0.4, -157), Vector3.new(-20.5, 0.4, -73), Vector3.new(-96, 0, 38), Vector3.new(-96, 0, 8), Vector3.new(66, 0.4, -112) } do
+		urn(folder, p)
+	end
+	-- New Year banner across the avenue.
+	local banner = detail(block(folder, "New Year banner", Vector3.new(32, 2.6, 0.2), Vector3.new(0, 12.5, -20), rgb(160, 26, 24), Enum.Material.Fabric))
+	Build.sign(banner, Enum.NormalId.Back, "С НОВЫМ 1985 ГОДОМ, ТОВАРИЩИ!", { bg = rgb(160, 26, 24), fg = rgb(250, 220, 120) })
+	Build.sign(banner, Enum.NormalId.Front, "НОРИЛЬСК — ГОРОД ГОРНЯКОВ И МЕТАЛЛУРГОВ", { bg = rgb(160, 26, 24), fg = rgb(250, 220, 120) })
+	-- More cars of the period.
+	smallCar(folder, CFrame.new(-140, 0, -6) * CFrame.Angles(0, -0.4, 0), rgb(90, 130, 90), "Zaporozhets", 7.5)
+	smallCar(folder, CFrame.new(10.5, 0, -95) * CFrame.Angles(0, math.pi, 0), rgb(200, 110, 40), "Moskvich 412", 9)
+
+	-- Army truck by the mine fence: soldiers in the morning, an empty running truck at night.
+	gaz66(folder, CFrame.lookAt(Vector3.new(-70, 0, -192), Vector3.new(-60, 0, -192)))
+	Build.note(folder, 7, CFrame.new(-61.4, 2.5, -192.8) * CFrame.Angles(0, 0.3, 0))
+	staged(Figure.build(folder, CFrame.lookAt(Vector3.new(-60, 0, -185), Vector3.new(-66, 0, -183)), { hat = "army", held = "rifle", armR = 0, armL = 5, action = "idle", name = "Soldier", seed = 31 }), 2, 4)
+	staged(Figure.build(folder, CFrame.lookAt(Vector3.new(-66, 0, -183.5), Vector3.new(-60, 0, -185)), { hat = "army", held = "cigarette", armR = 20, action = "smoke", name = "Soldier", seed = 32 }), 2, 4)
+
+	-- Militia car on the plaza.
+	militiaCar(folder, CFrame.lookAt(Vector3.new(38, 0.3, -30), Vector3.new(30, 0.3, -30)) * CFrame.Angles(0, math.pi / 2, 0))
+	Build.note(folder, 9, CFrame.new(38.5, 6.4, -30.5) * CFrame.Angles(0, 0.5, 0))
+	staged(Figure.build(folder, CFrame.lookAt(Vector3.new(31.5, 0.3, -27), Vector3.new(20, 0.3, -27)), { hat = "militia", held = "papers", armR = 60, armL = 10, action = "read", name = "Militiaman", seed = 33 }), 2, 4)
+
+	-- The conscript's letter, left in the payphone booth.
+	detail(block(folder, "Phone shelf", Vector3.new(0.8, 0.15, 1.6), Vector3.new(-22.4, 3.35, -120), rgb(80, 80, 84), Enum.Material.Metal))
+	Build.note(folder, 10, CFrame.new(-22.4, 3.45, -120) * CFrame.Angles(0, 0.3, 0))
+
+	-- Graffiti: football, rock bands, love, and lately other things.
+	local g = Build.graffiti
+	local white, red, black = rgb(232, 232, 226), rgb(190, 40, 34), rgb(24, 24, 24)
+	g(folder, CFrame.lookAt(Vector3.new(-142, 3.8, 81.2), Vector3.new(-142, 3.8, 90)), "СПАРТАК — ЧЕМПИОН!", { color = red, size = Vector2.new(6, 2), rotation = -4 })
+	g(folder, CFrame.lookAt(Vector3.new(-125, 3, 81.2), Vector3.new(-125, 3, 90)), "КИНО", { color = black, size = Vector2.new(4, 2), rotation = 3 })
+	g(folder, CFrame.lookAt(Vector3.new(-116.5, 4, 81.2), Vector3.new(-116.5, 4, 90)), "здесь был Вася", { color = white, size = Vector2.new(5, 1.6), rotation = -2, font = Enum.Font.IndieFlower })
+	g(folder, CFrame.lookAt(Vector3.new(-103.8, 4, 74), Vector3.new(-90, 4, 74)), "Петя + Лена = ♥", { color = rgb(220, 90, 130), size = Vector2.new(5, 2), rotation = 5, font = Enum.Font.IndieFlower })
+	g(folder, CFrame.lookAt(Vector3.new(-133.5, 3.2, 81.2), Vector3.new(-133.5, 3.2, 90)), "ОН ЗА ТОБОЙ", { color = rgb(140, 20, 20), size = Vector2.new(6, 2.2), rotation = -8, night = true })
+	g(folder, CFrame.lookAt(Vector3.new(-90.2, 4.2, 10), Vector3.new(-100, 4.2, 10)), "AC/DC", { color = black, size = Vector2.new(4, 1.4), rotation = -3 })
+	g(folder, CFrame.lookAt(Vector3.new(-90.2, 4.2, 51), Vector3.new(-100, 4.2, 51)), "НЕ ОГЛЯДЫВАЙСЯ", { color = rgb(150, 20, 20), size = Vector2.new(6, 1.4), rotation = 2, night = true })
+	g(folder, CFrame.lookAt(Vector3.new(24, 3.6, -170.4), Vector3.new(24, 3.6, -180)), "Где Гена?", { color = white, size = Vector2.new(4, 1.6), rotation = -6, font = Enum.Font.IndieFlower })
+	g(folder, CFrame.lookAt(Vector3.new(24, 3.6, -159.6), Vector3.new(24, 3.6, -150)), "АКВАРИУМ", { color = rgb(60, 90, 160), size = Vector2.new(4.5, 1.6), rotation = 4 })
+	g(folder, CFrame.lookAt(Vector3.new(-22.5, 3.4, -74.9), Vector3.new(-22.5, 3.4, -60)), "Машина Времени", { color = black, size = Vector2.new(4.5, 1.5), rotation = -3 })
+	g(folder, CFrame.lookAt(Vector3.new(-137, 4.5, 36.8), Vector3.new(-137, 4.5, 50)), "Ю. ГАГАРИН", { color = white, size = Vector2.new(2.6, 1), rotation = 0 })
+	g(folder, CFrame.lookAt(Vector3.new(-59.8, 4.2, -70), Vector3.new(-50, 4.2, -70)), "ЦСКА", { color = red, size = Vector2.new(3, 1.3), rotation = 6 })
+	g(folder, CFrame.lookAt(Vector3.new(-59.8, 4.2, -125), Vector3.new(-50, 4.2, -125)), "ИДИ", { color = rgb(150, 20, 20), size = Vector2.new(3, 1.3), rotation = -5, night = true })
+	g(folder, CFrame.lookAt(Vector3.new(59.8, 4.2, 62), Vector3.new(50, 4.2, 62)), "Металл — это сила!", { color = black, size = Vector2.new(5, 1.3), rotation = -2 })
+	g(folder, CFrame.lookAt(Vector3.new(-149.8, 4.2, -10), Vector3.new(-140, 4.2, -10)), "Таня, я тебя жду", { color = white, size = Vector2.new(5, 1.2), rotation = 3, font = Enum.Font.IndieFlower })
+
+	-- More posters: on the courtyard walls, the avenue and the far blocks.
+	for _, p in {
+		{ Vector3.new(-90.2, 6, -10), -Vector3.xAxis, 8 },
+		{ Vector3.new(-149.8, 6, 55), Vector3.xAxis, 11 },
+		{ Vector3.new(59.8, 6, -12), -Vector3.xAxis, 9 },
+		{ Vector3.new(-59.8, 6, -158), Vector3.xAxis, 13 },
+		{ Vector3.new(59.8, 6, 80), -Vector3.xAxis, 10 },
+		{ Vector3.new(-90.2, 6, 72), -Vector3.xAxis, 12 },
+	} do
+		Build.poster(folder, face(p[1], p[2]), Config.Posters[p[3]])
 	end
 end
 
@@ -719,6 +959,8 @@ function Town.build(world)
 	apartmentBlock(folder, "Building 12", CFrame.lookAt(Vector3.new(-165, 0, 30), Vector3.new(-166, 0, 30)), 110, {
 		entrances = { -30, 0, 30 },
 		address = "УЛ. ГОРНЯКОВ, 12",
+		gablePoster = 10,
+		gableSide = 1,
 		color = CONCRETE[4],
 	})
 	apartmentBlock(folder, "Building 9", CFrame.lookAt(Vector3.new(0, 0, 150), Vector3.new(0, 0, 149)), 140, {
@@ -731,12 +973,16 @@ function Town.build(world)
 	apartmentBlock(folder, "Building 21", CFrame.lookAt(Vector3.new(165, 0, -40), Vector3.new(164, 0, -40)), 120, {
 		entrances = { -35, 0, 35 },
 		address = "УЛ. ЗАВЕНЯГИНА, 21",
+		gablePoster = 12,
+		gableSide = 1,
 		lit = 0.15,
 		color = CONCRETE[2],
 	})
 	apartmentBlock(folder, "Building 18", CFrame.lookAt(Vector3.new(-165, 0, -110), Vector3.new(-166, 0, -110)), 110, {
 		entrances = { -30, 0, 30 },
 		address = "ЛЕНИНСКИЙ ПР., 18",
+		gablePoster = 9,
+		gableSide = -1,
 		lit = 0.12,
 		color = CONCRETE[1],
 	})
@@ -821,6 +1067,7 @@ function Town.build(world)
 		end
 	end
 
+	eraDressing(folder)
 	apartmentInterior(folder, Config.Places.Apartment, spots)
 	camp(folder, Vector3.new(-230, 0, -150))
 

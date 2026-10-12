@@ -114,12 +114,19 @@ local function placeWalker(w, initial)
 	w.speed = 5 + math.random() * 2
 end
 
-local HATS = { "ushanka", "ushanka", "ushanka", "kerchief", "cap", "helmet" }
+local HATS = { "ushanka", "ushanka", "ushanka", "kerchief", "shawl", "furhat", "cap", "helmet" }
 
 local function spawnWalker(group, initial)
+	-- Morning: some carry a briefcase. Evening: the string bag from the shop.
+	local evening = table.find(group.stages, 7) ~= nil
+	local held = nil
+	if math.random() < (evening and 0.45 or 0.2) then
+		held = evening and "avoska" or "briefcase"
+	end
 	local model = Figure.build(folder, CFrame.new(0, -500, 0), {
 		hat = HATS[math.random(1, #HATS)],
-		armR = 5,
+		held = held,
+		armR = 0,
 		armL = 5,
 		seed = math.random(1, 1e6),
 		name = "Coworker",

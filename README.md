@@ -74,11 +74,42 @@ The rules (the notes and the night-time posters hint at them):
 
 ## Set dressing
 
+**Period clothing.** Everyone dresses for the Arctic in 1984:
+
+- quilted *fufaika* jackets with quilted trousers and felt *valenki* boots
+- wool overcoats with fur collars and knitted scarves
+- long fur coats with Orenburg shawls or fur hats
+- miners' canvas suits with lamp batteries and self-rescuers on the belt
+- Soviet Army greatcoats (*shinel*) with red shoulder boards and star-badged ushankas
+- grey-blue militia coats with armbands
+- white kitchen coats in the canteen
+
+In the evening, people carry string shopping bags (*avoska*) with milk and bread; in the
+morning, briefcases.
+
+**Period items.** You'll also find:
+
+- soda-water machines (1 kopeck plain, 3 with syrup) and a kvass barrel shut for the winter
+- milk crates
+- a cinema pillar showing «Москва слезам не верит» and «Пираты XX века»
+- a Soviet New Year tree with a red star and a "С НОВЫМ 1985 ГОДОМ" banner
+- a Zaporozhets and a Moskvich
+- an army GAZ-66 with its engine running and the door open
+- a yellow militia UAZ
+- concrete litter urns
+
+**Graffiti.** Football (СПАРТАК, ЦСКА), rock bands of the time (КИНО, АКВАРИУМ,
+Машина Времени, AC/DC), "здесь был Вася", lovers' initials, and chalk left by miners
+underground. Some writing only appears after dark.
+
 - Five-storey Khrushchyovka panel blocks on permafrost piles, with lit windows, curtains,
   balconies, TV aerials, entrance lamps, benches and notice boards.
 - Silver-wrapped heating mains running above ground, with the arch over the avenue and
   steam leaking from them.
-- Propaganda posters and giant slogans on the gable ends. At night the slogans change.
+- Thirteen propaganda posters of the period (СЛАВА ТРУДУ, ПЬЯНСТВУ — БОЙ, МИРУ — МИР,
+  РЕШЕНИЯ XXVI СЪЕЗДА КПСС — В ЖИЗНЬ…) on the streets, the mine fence, in the canteen,
+  the lamp room and the cage house, plus giant slogans on the gable ends. At night the
+  slogans change.
 - A Lenin monument, a Soyuzpechat kiosk, a payphone (2 kopecks), a bus stop with a mosaic,
   a PAZ bus, Zhiguli cars buried in snow, a board of honour with two faces crossed out,
   a playground with the classic climbing rocket, and garages.
@@ -93,7 +124,16 @@ The rules (the notes and the night-time posters hint at them):
 - The ruins of the Norillag camp west of town: a watchtower, barbed wire, a collapsed barrack
   and numbered grave stakes.
 
-There are **six notes** to find. Together they tell you what the Foreman is.
+There are **ten notes** to find:
+
+- **Six personal and civil notes:** a letter, a missing-person poster, the lamp ledger, a carving in the mine, a KGB memo and the camp plaque.
+- **Four military and official ones:**
+  - an army telegram about a vanished guard post
+  - a 1951 MVD escort report on a column that came back one prisoner short
+  - a militia patrol report about a sergeant who went to check the Foreman's documents
+  - a conscript's letter to his mother
+
+Together they tell you what the Foreman is.
 
 ## Sound
 

@@ -104,7 +104,7 @@ Config.Walkers = {
 		routes = {
 			{ Vector3.new(-96, 0, 0), Vector3.new(-100, 0, -40), Vector3.new(-40, 0, -40), Vector3.new(-20, 0, -41), Vector3.new(-7, 0, -60), Vector3.new(-6, 0, -200), Vector3.new(-2, 0, -262) },
 			{ Vector3.new(-96, 0, 60), Vector3.new(-104, 0, -42), Vector3.new(-40, 0, -43), Vector3.new(-20, 0, -44), Vector3.new(-8, 0, -80), Vector3.new(-5, 0, -200), Vector3.new(2, 0, -262) },
-			{ Vector3.new(58, 0, 0), Vector3.new(40, 0, -20), Vector3.new(19.5, 0, -25), Vector3.new(19.5, 0, -185), Vector3.new(6, 0, -200), Vector3.new(4, 0, -262) },
+			{ Vector3.new(58, 0, -8), Vector3.new(40, 0, -20), Vector3.new(19.5, 0, -25), Vector3.new(19.5, 0, -185), Vector3.new(6, 0, -200), Vector3.new(4, 0, -262) },
 			{ Vector3.new(58, 0, 60), Vector3.new(19.5, 0, 50), Vector3.new(19.5, 0, -185), Vector3.new(5, 0, -200), Vector3.new(-1, 0, -262) },
 			{ Vector3.new(0, 0, 105), Vector3.new(-18.5, 0, 90), Vector3.new(-18.5, 0, -185), Vector3.new(-6, 0, -200), Vector3.new(-3, 0, -262) },
 			{ Vector3.new(-96, 0, -110), Vector3.new(-100, 0, -175), Vector3.new(-40, 0, -185), Vector3.new(-8, 0, -198), Vector3.new(-6, 0, -206), Vector3.new(-22, 0, -235) },
@@ -147,6 +147,12 @@ Config.Posters = {
 	{ title = "ТЕХНИКА БЕЗОПАСНОСТИ — ЗАКОН!", sub = "Safety rules are law", night = "ЛАМПА № 117 НЕ ВОЗВРАЩЕНА", nightSub = "Lamp No. 117 was never returned", bg = Color3.fromRGB(210, 160, 30), fg = Color3.fromRGB(25, 25, 25) },
 	{ title = "ХЛЕБ — БОГАТСТВО НАШЕ", sub = "Bread is our wealth. Treasure it.", night = "ТЫ ПОСЛЕДНИЙ", nightSub = "You are the last one", bg = Color3.fromRGB(196, 120, 40), fg = Color3.fromRGB(250, 240, 210) },
 	{ title = "ВПЕРЁД, К ПОБЕДЕ КОММУНИЗМА!", sub = "Forward to the victory of communism", night = "ИДИ. НЕ ОСТАНАВЛИВАЙСЯ.", nightSub = "Walk. Do not stop.", bg = Color3.fromRGB(160, 28, 30), fg = Color3.fromRGB(250, 214, 90) },
+	{ title = "ПЬЯНСТВУ — БОЙ!", sub = "Fight drunkenness!", night = "ОН ПРИХОДИТ И ЗА ТРЕЗВЫМИ", nightSub = "It comes for the sober too", bg = Color3.fromRGB(232, 222, 196), fg = Color3.fromRGB(170, 26, 22) },
+	{ title = "РЕШЕНИЯ XXVI СЪЕЗДА КПСС — В ЖИЗНЬ!", sub = "Carry out the decisions of the 26th Party Congress!", night = "ПЕРЕСЧИТАЙ СВОИХ", nightSub = "Count your people", bg = Color3.fromRGB(150, 24, 24), fg = Color3.fromRGB(240, 226, 190) },
+	{ title = "МИРУ — МИР!", sub = "Peace to the world!", night = "МЁРТВЫМ — НЕТ ПОКОЯ", nightSub = "No rest for the dead", bg = Color3.fromRGB(60, 100, 160), fg = Color3.fromRGB(245, 240, 225) },
+	{ title = "БЕРЕГИ ЭЛЕКТРОЭНЕРГИЮ!", sub = "Save electricity!", night = "НЕ ВЫКЛЮЧАЙ СВЕТ", nightSub = "Never turn the light off", bg = Color3.fromRGB(40, 60, 90), fg = Color3.fromRGB(250, 220, 80) },
+	{ title = "СЛАВА СОВЕТСКИМ ШАХТЁРАМ!", sub = "Glory to Soviet miners!", night = "ШАХТА ПОМНИТ ВСЕХ", nightSub = "The mine remembers everyone", bg = Color3.fromRGB(30, 30, 32), fg = Color3.fromRGB(240, 190, 60) },
+	{ title = "БДИТЕЛЬНОСТЬ — НАШЕ ОРУЖИЕ", sub = "Vigilance is our weapon", night = "ОН ТОЖЕ БДИТЕЛЕН", nightSub = "It is vigilant too", bg = Color3.fromRGB(200, 190, 160), fg = Color3.fromRGB(110, 20, 20) },
 }
 
 -- Lore notes hidden around town and the mine.
@@ -174,6 +180,23 @@ Config.Notes = {
 	{
 		title = "Табличка у вышки / Plaque by the watchtower",
 		text = "НОРИЛЬЛАГ, 1935–1956.\n\nHere, prisoners built the city and the mines.\n\nBelow, someone scratched a list of names into the metal, and next to the last one a single word:\n\nБРИГАДИР. He kept the count. He always walked behind the column, so that nobody fell behind.\n\nHe is still counting.",
+	},
+	-- Military and official correspondence.
+	{
+		title = "Телеграмма / Military telegram",
+		text = "ТЕЛЕГРАММА · В/Ч 3517 · СРОЧНО\nTo: commander, air defence battalion, Talnakh\n\n18.11.84, 02:40. The guard from post No. 3 (Privates SAFIN and KRAVCHUK) did not return from their watch.\n\nTwo sets of boot prints lead from the post towards the mine road. Beside them, a third set. The third set does not start anywhere. It is simply there, behind them, all the way.\n\nSearch suspended due to the blizzard. Request instructions on how to record the loss.\n\n— Capt. LEVCHENKO, company commander",
+	},
+	{
+		title = "Рапорт конвоя / Escort report, 1951",
+		text = "РАПОРТ\nTo: head of escort, camp section No. 4, Norillag. 9 February 1951.\n\nA column of 41 prisoners left the zone for Shaft No. 0 at 06:00. At the shaft gate I counted 40. Prisoner Л-128 is missing.\n\nThe rear guard, Sgt. MUKHIN, insists the column was never short. He says that the whole way there was someone walking behind the last prisoner, in a camp coat, carrying a lamp, and that he \"counted him in\".\n\nSgt. Mukhin has not reported for duty since. Prisoner Л-128 is recorded as escaped.\n\n— Jr. Lt. A. BELYI, escort troops of the MVD",
+	},
+	{
+		title = "Рапорт милиции / Militia patrol report",
+		text = "МИЛИЦИЯ · Patrol and post service · 3 December 1984\n\nAt 23:50 on Leninsky Prospekt, Sgt. ZUEV and I observed a tall citizen in a long coat following a worker home from Stolovaya No. 3, at a distance of about forty metres.\n\nWhen I shone my torch on the citizen, he stopped and stood still. When I lowered the torch, he was twenty metres closer.\n\nSgt. Zuev went to check his documents. I have not seen Sgt. Zuev since. The citizen was gone. There was a miner's lamp on the snow, number 117. When I went to pick it up, it was gone too.\n\nI request a transfer to Krasnoyarsk.\n— Jr. Sgt. of Militia NIKITIN",
+	},
+	{
+		title = "Письмо солдата / A conscript's letter",
+		text = "Дорогая мама,\n\nThey have us patrolling the town at night now, in pairs, with live rounds. Nobody tells us why. The old praporshchik says that in his day they lost a whole patrol on the camp road and wrote them all up as deserters. Deserters, Mama, in the tundra, at minus fifty.\n\nLast night Tolik and I were walking back to the truck and Tolik said, very quietly, \"Don't turn round. There's someone behind us with a lamp.\" I didn't turn round. I walked faster. When I got to the truck I was alone.\n\nThey say Tolik deserted. Please don't tell anyone I wrote this. I'll try to call from the payphone.\n\nYour Seryozha. 2 December 1984",
 	},
 }
 
