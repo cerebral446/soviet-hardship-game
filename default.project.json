@@ -1,0 +1,37 @@
+{
+  "name": "NorilskLastShift",
+  "tree": {
+    "$className": "DataModel",
+    "Workspace": {
+      "$properties": {
+        "StreamingEnabled": false
+      }
+    },
+    "ReplicatedStorage": {
+      "Shared": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "$path": "src/server"
+    },
+    "StarterPlayer": {
+      "$properties": {
+        "CameraMode": "LockFirstPerson",
+        "CharacterWalkSpeed": 10,
+        "CharacterUseJumpPower": false,
+        "CharacterJumpHeight": 3.5
+      },
+      "StarterPlayerScripts": {
+        "$path": "src/client"
+      }
+    },
+    "Lighting": {
+      "$properties": {
+        "Technology": "Future",
+        "ClockTime": 23.4,
+        "Brightness": 0.4
+      }
+    }
+  }
+}
